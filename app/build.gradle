@@ -16,11 +16,40 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-
-    buildTypes {
+    signingConfigs {
         release {
-            minifyEnabled false
+            storeFile file("../secret/release.jks")
+            storePassword "12345678"
+            keyAlias "key0"
+            keyPassword "12345678"
+        }
+        debug {
+            storeFile file("../secret/release.jks")
+            storePassword "12345678"
+            keyAlias "key0"
+            keyPassword "12345678"
+        }
+    }
+    flavorDimensions 'config'
+    productFlavors {
+        prod {
+            dimension 'config'
+
+        }
+        development {
+            dimension 'config'
+            applicationIdSuffix '.development'
+        }
+    }
+    buildTypes {
+        debug {
+            minifyEnabled = false
+            signingConfig signingConfigs.debug
+        }
+        release {
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     compileOptions {
