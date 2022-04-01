@@ -37,11 +37,12 @@ android {
     productFlavors {
         prod {
             dimension 'config'
-
+            buildConfigField "String", "dbname", "\"db.db\""
         }
         development {
             dimension 'config'
             applicationIdSuffix '.development'
+            buildConfigField "String", "dbname", "\"testdb.db\""
         }
     }
     buildTypes {
