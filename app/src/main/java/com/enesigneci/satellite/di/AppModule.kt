@@ -3,10 +3,12 @@ package com.enesigneci.satellite.di
 import android.content.Context
 import androidx.room.Room
 import com.enesigneci.satellite.BuildConfig
+import com.enesigneci.satellite.list.data.DataManager
 import com.enesigneci.satellite.list.data.datasource.SatelliteDataSource
-import com.enesigneci.satellite.list.data.datasource.SatelliteRepositoryImpl
+import com.enesigneci.satellite.list.data.SatelliteRepositoryImpl
 import com.enesigneci.satellite.list.data.db.SatelliteDb
 import com.enesigneci.satellite.list.domain.SatelliteRepository
+import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -36,4 +38,8 @@ object AppModule {
     @Singleton
     @Provides
     fun provideSatelliteDatabase(db: SatelliteDb) = db.satelliteDao()
+
+    @Singleton
+    @Provides
+    fun provideGson() = Gson()
 }

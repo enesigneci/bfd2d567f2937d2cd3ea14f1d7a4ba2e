@@ -1,5 +1,6 @@
-package com.enesigneci.satellite.list.data.datasource
+package com.enesigneci.satellite.list.data
 
+import com.enesigneci.satellite.list.data.datasource.SatelliteDataSource
 import com.enesigneci.satellite.list.data.db.model.SatelliteList
 import com.enesigneci.satellite.list.domain.SatelliteRepository
 

@@ -13,4 +13,9 @@ interface SatelliteDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(satellite: SatelliteList)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(list: List<SatelliteList>)
+
+
 }
