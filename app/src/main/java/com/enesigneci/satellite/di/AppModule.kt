@@ -3,6 +3,7 @@ package com.enesigneci.satellite.di
 import android.content.Context
 import androidx.room.Room
 import com.enesigneci.satellite.BuildConfig
+import com.enesigneci.satellite.base.StringProvider
 import com.enesigneci.satellite.list.data.DataManager
 import com.enesigneci.satellite.list.data.datasource.SatelliteDataSource
 import com.enesigneci.satellite.list.data.SatelliteRepositoryImpl
@@ -42,4 +43,9 @@ object AppModule {
     @Singleton
     @Provides
     fun provideGson() = Gson()
+
+
+    @Singleton
+    @Provides
+    fun provideStringProvider(@ApplicationContext context: Context) = StringProvider(context)
 }
