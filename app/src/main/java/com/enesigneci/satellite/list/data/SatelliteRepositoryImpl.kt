@@ -1,5 +1,6 @@
 package com.enesigneci.satellite.list.data
 
+import com.enesigneci.satellite.detail.data.model.SatelliteDetail
 import com.enesigneci.satellite.list.data.datasource.SatelliteDataSource
 import com.enesigneci.satellite.list.data.db.model.SatelliteList
 import com.enesigneci.satellite.list.domain.SatelliteRepository
@@ -11,7 +12,11 @@ class SatelliteRepositoryImpl constructor(
         return dataSource.listSatellites()
     }
 
-    override suspend fun insertSatellite(satellite: SatelliteList) {
-        dataSource.insertSatellite(satellite)
+    override suspend fun insertSatelliteList(satellite: SatelliteList) {
+        dataSource.insertSatelliteList(satellite)
+    }
+
+    override suspend fun getSatelliteById(id: Int, name: String): SatelliteDetail {
+        return dataSource.getSatelliteById(id)
     }
 }

@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.room.Room
 import com.enesigneci.satellite.BuildConfig
 import com.enesigneci.satellite.base.StringProvider
-import com.enesigneci.satellite.list.data.DataManager
 import com.enesigneci.satellite.list.data.datasource.SatelliteDataSource
 import com.enesigneci.satellite.list.data.SatelliteRepositoryImpl
 import com.enesigneci.satellite.list.data.db.SatelliteDb

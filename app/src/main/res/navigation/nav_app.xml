@@ -20,6 +20,10 @@
         tools:layout="@layout/fragment_detail" >
         <argument
             android:name="id"
-            app:argType="string" />
+            app:argType="integer"/>
+
+        <argument
+            android:name="name"
+            app:argType="string"/>
     </fragment>
 </navigation>

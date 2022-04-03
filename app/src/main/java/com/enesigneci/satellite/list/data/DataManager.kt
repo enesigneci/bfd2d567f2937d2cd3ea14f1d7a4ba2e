@@ -36,8 +36,8 @@ class DataManager @Inject constructor(
                 gson.fromJson<List<SatelliteList>>(json, satelliteListType)
             }
             Constants.SATELLITE_DETAIL_JSON -> {
-                val satelliteDetailType: Type = object : TypeToken<SatelliteDetail>() {}.type
-                gson.fromJson<SatelliteDetail>(json, satelliteDetailType)
+                val satelliteDetailType: Type = object : TypeToken<List<SatelliteDetail>>() {}.type
+                gson.fromJson<List<SatelliteDetail>>(json, satelliteDetailType)
             }
             Constants.POSITIONS_JSON -> {
                 val positionsType: Type = object : TypeToken<List<Positions>>() {}.type

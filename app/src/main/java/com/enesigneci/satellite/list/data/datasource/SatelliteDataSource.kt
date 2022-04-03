@@ -1,6 +1,7 @@
 package com.enesigneci.satellite.list.data.datasource
 
 import com.enesigneci.satellite.base.Constants
+import com.enesigneci.satellite.detail.data.model.SatelliteDetail
 import com.enesigneci.satellite.di.coroutines.IoDispatcher
 import com.enesigneci.satellite.list.data.DataManager
 import com.enesigneci.satellite.list.data.db.SatelliteDb
@@ -20,12 +21,20 @@ class SatelliteDataSource @Inject constructor(
         prepareSatelliteData()
     }
 
-    suspend fun insertSatellite(satelliteList: SatelliteList) = withContext(ioDispatcher) {
-        satelliteDb.satelliteDao().insert(satelliteList)
+    suspend fun insertSatelliteList(satelliteList: SatelliteList) = withContext(ioDispatcher) {
+        satelliteDb.satelliteDao().insertSatelliteList(satelliteList)
     }
 
-    suspend fun insertAllSatellites(list: List<SatelliteList>) = withContext(ioDispatcher) {
+    private suspend fun insertAllSatellites(list: List<SatelliteList>) = withContext(ioDispatcher) {
         satelliteDb.satelliteDao().insertAll(list)
+    }
+
+    suspend fun getSatelliteById(id: Int) = withContext(ioDispatcher) {
+        prepareSatelliteDetailData(id)
+    }
+
+    private suspend fun insertSatelliteDetail(satelliteDetail: SatelliteDetail) = withContext(ioDispatcher) {
+        satelliteDb.satelliteDao().insertSatelliteDetail(satelliteDetail)
     }
 
     private suspend fun prepareSatelliteData(): List<SatelliteList> {
@@ -41,5 +50,20 @@ class SatelliteDataSource @Inject constructor(
 
     private fun populateSatelliteDatabase(): List<SatelliteList> {
         return dataManager.parseJson(Constants.SATELLITE_LIST_JSON) as List<SatelliteList>
+    }
+
+    private suspend fun prepareSatelliteDetailData(id: Int): SatelliteDetail {
+        val satelliteFromDb = satelliteDb.satelliteDao().getSatelliteById(id)
+        return if (satelliteFromDb == null) {
+            val satelliteDetail = populateSatelliteDetailDatabase().find { it.id == id }!!
+            insertSatelliteDetail(satelliteDetail)
+            satelliteDetail
+        } else {
+            satelliteFromDb
+        }
+    }
+
+    private fun populateSatelliteDetailDatabase(): List<SatelliteDetail> {
+        return dataManager.parseJson(Constants.SATELLITE_DETAIL_JSON) as List<SatelliteDetail>
     }
 }

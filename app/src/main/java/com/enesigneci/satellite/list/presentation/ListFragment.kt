@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -42,7 +44,8 @@ class ListFragment : BindingFragment<FragmentListBinding>(FragmentListBinding::i
                     hideLoader()
                     listAdapter.updateList(it.data)
                     listAdapter.setItemClickListener {
-                        Toast.makeText(requireContext(), it.name, Toast.LENGTH_SHORT).show()
+                        val detailAction = ListFragmentDirections.actionListFragmentToDetailFragment(it.id ?: 0, it.name ?: "")
+                        findNavController().navigate(detailAction)
                     }
                 }
                 Resource.Loading -> showLoader()
