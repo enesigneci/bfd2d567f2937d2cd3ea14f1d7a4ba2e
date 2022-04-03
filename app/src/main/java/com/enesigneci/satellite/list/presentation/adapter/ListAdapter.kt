@@ -47,8 +47,12 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.SatelliteViewHolder>() {
             onItemClickedListener: (item: SatelliteList) -> Unit
         ) {
             binding.apply {
+                val isActive = satellite.isActive ?: false
                 tvName.text = satellite.name
-                if (satellite.isActive == true) {
+                tvName.isEnabled = isActive
+                tvStatus.isEnabled = isActive
+
+                if (isActive) {
                     tvStatus.text = tvStatus.context.getString(R.string.active)
                     ivStatusIndicator.setImageResource(R.drawable.status_indicator_active)
                 } else {

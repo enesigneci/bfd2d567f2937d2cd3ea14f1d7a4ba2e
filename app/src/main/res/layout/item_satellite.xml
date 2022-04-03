@@ -14,6 +14,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed"
+        android:textStyle="bold"
+        android:textColor="@drawable/status_selector"
         tools:text="Satellite Name" />
 
     <TextView
@@ -23,6 +25,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/tv_name"
         app:layout_constraintTop_toBottomOf="@+id/tv_name"
+        android:textColor="@drawable/status_selector"
         tools:text="Active" />
 
     <ImageView
