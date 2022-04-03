@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName
 @Entity(tableName = "satellites")
 data class SatelliteList(
     @SerializedName("active")
-    val active: Boolean? = null,
+    val isActive: Boolean? = null,
     @SerializedName("id")
     @PrimaryKey
     val id: Int? = null,
