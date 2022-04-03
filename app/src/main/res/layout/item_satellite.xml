@@ -33,5 +33,5 @@
         app:layout_constraintBottom_toBottomOf="@+id/tv_status"
         app:layout_constraintEnd_toStartOf="@+id/tv_name"
         app:layout_constraintTop_toTopOf="@+id/tv_name"
-        android:background="@drawable/status_indicator"/>
+        android:background="@drawable/status_indicator_passive"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
