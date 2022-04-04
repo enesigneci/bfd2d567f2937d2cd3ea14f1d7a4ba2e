@@ -1,6 +1,7 @@
 package com.enesigneci.satellite.list.data.datasource
 
 import com.enesigneci.satellite.base.Constants
+import com.enesigneci.satellite.detail.data.model.PositionList
 import com.enesigneci.satellite.detail.data.model.SatelliteDetail
 import com.enesigneci.satellite.di.coroutines.IoDispatcher
 import com.enesigneci.satellite.list.data.DataManager
@@ -65,5 +66,9 @@ class SatelliteDataSource @Inject constructor(
 
     private fun populateSatelliteDetailDatabase(): List<SatelliteDetail> {
         return dataManager.parseJson(Constants.SATELLITE_DETAIL_JSON) as List<SatelliteDetail>
+    }
+
+    fun getPositions(): PositionList {
+        return dataManager.parseJson(Constants.POSITIONS_JSON) as PositionList
     }
 }

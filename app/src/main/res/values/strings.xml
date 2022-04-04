@@ -8,7 +8,7 @@
     <string name="error_dialog_description_text">Error occurred</string>
     <string name="there_is_no_satellite">There is no satellite.</string>
     <string name="couldnt_get_satellite_detail">Couldn\'t get satellite detail</string>
-    <string name="height_mass"><b>Height / Mass: </b> %s</string>
-    <string name="last_position"><b>Last Position: </b> %s</string>
-    <string name="cost"><b>Cost: </b> %s</string>
+    <string name="height_mass">Height / Mass: </string>
+    <string name="last_position">Last Position: </string>
+    <string name="cost">Cost: </string>
 </resources>

@@ -3,7 +3,7 @@ package com.enesigneci.satellite.list.data
 import android.content.Context
 import android.util.Log
 import com.enesigneci.satellite.base.Constants
-import com.enesigneci.satellite.detail.data.model.Positions
+import com.enesigneci.satellite.detail.data.model.PositionList
 import com.enesigneci.satellite.detail.data.model.SatelliteDetail
 import com.enesigneci.satellite.list.data.db.model.SatelliteList
 import com.google.gson.Gson
@@ -40,8 +40,7 @@ class DataManager @Inject constructor(
                 gson.fromJson<List<SatelliteDetail>>(json, satelliteDetailType)
             }
             Constants.POSITIONS_JSON -> {
-                val positionsType: Type = object : TypeToken<List<Positions>>() {}.type
-                gson.fromJson<List<Positions>>(json, positionsType)
+                gson.fromJson(json, PositionList::class.java)
             }
             else -> null
         }

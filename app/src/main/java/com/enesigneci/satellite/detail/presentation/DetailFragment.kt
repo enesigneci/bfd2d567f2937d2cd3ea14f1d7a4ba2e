@@ -25,25 +25,17 @@ class DetailFragment : BindingFragment<FragmentDetailBinding>(FragmentDetailBind
                 }
                 is Resource.Success -> {
                     hideLoader()
-                    /*Log.d("satellite detail", it.data.toString())
-                    Toast.makeText(requireContext(), it.data.id.toString(), Toast.LENGTH_SHORT).show()
-                    binding.apply {
-                        *//*with(it.data) {
-                            tvName.text = name
-                            tvCost.text = getString(R.string.cost, DecimalFormat("#,###,###", DecimalFormatSymbols().apply { groupingSeparator = '.' }).format(costPerLaunch))
-                            val inputDate = SimpleDateFormat("yyyy-mm-dd", Locale.getDefault()).parse(firstFlight)
-                            val outputDate = SimpleDateFormat("dd.mm.yyyy", Locale.getDefault()).format(inputDate)
-                            tvDate.text = outputDate.toString()
-                            tvHeightMass.text = getString(R.string.height_mass, "$height / $mass")
-                        }*//*
-                    }*/
                     viewModel.uiModelLiveData.observe(viewLifecycleOwner, { uiModel ->
+
+                        viewModel.positionsLiveData.observe(viewLifecycleOwner, { position ->
+                            binding.tvLastPosition.text = position
+                        })
                         with(uiModel) {
                             binding.apply {
-                                tvName.text = title
-                                tvCost.text = cost
-                                tvDate.text = date
-                                tvHeightMass.text = heightMass
+                                tvName.setText(title)
+                                tvCost.setText(cost)
+                                tvDate.setText(date)
+                                tvHeightMass.setText(heightMass)
                             }
                         }
 

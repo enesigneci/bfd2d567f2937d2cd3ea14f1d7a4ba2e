@@ -1,5 +1,8 @@
 package com.enesigneci.satellite.detail.presentation
 
+import android.text.Spanned
+import androidx.core.text.bold
+import androidx.core.text.buildSpannedString
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
@@ -11,15 +14,13 @@ import com.enesigneci.satellite.detail.data.model.SatelliteDetail
 import com.enesigneci.satellite.detail.data.model.SatelliteDetailUIModel
 import com.enesigneci.satellite.detail.domain.DetailUseCase
 import com.enesigneci.satellite.list.data.Resource
-import com.enesigneci.satellite.list.data.db.model.SatelliteList
-import com.enesigneci.satellite.list.domain.ListSatellitesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import java.lang.Exception
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.Locale
 import javax.inject.Inject
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @HiltViewModel
@@ -40,6 +41,10 @@ class DetailViewModel @Inject constructor(
     private val _uiModelLiveData = MutableLiveData<SatelliteDetailUIModel>()
     val uiModelLiveData: LiveData<SatelliteDetailUIModel> = _uiModelLiveData
 
+    private val _positionsLiveData = MutableLiveData<Spanned>()
+    val positionsLiveData: LiveData<Spanned> = _positionsLiveData
+
+
     fun getSatelliteDetail() {
         viewModelScope.launch {
             _uiLiveData.postValue(Resource.Loading)
@@ -50,12 +55,20 @@ class DetailViewModel @Inject constructor(
                     _uiLiveData.postValue(Resource.Success(this))
                     val satelliteDetailUIModel = SatelliteDetailUIModel(
                         args.name,
-                        stringProvider.getString(R.string.height_mass, "$height / $mass"),
+                        buildSpannedString {
+                            bold {
+                                append(stringProvider.getString(R.string.height_mass))
+                            }
+                            append("$height / $mass")
+                        },
                         prepareDate(firstFlight),
-                        prepareCost(costPerLaunch),
-                        ""
+                        prepareCost(costPerLaunch)
                     )
                     _uiModelLiveData.postValue(satelliteDetailUIModel)
+                    while (true){
+                        requestPositions(id.toString())
+                        delay(3000)
+                    }
                 }
             }
         }
@@ -66,7 +79,27 @@ class DetailViewModel @Inject constructor(
         val outputDate = SimpleDateFormat("dd.mm.yyyy", Locale.getDefault()).format(inputDate)
         return outputDate.toString()
     }
-    private fun prepareCost(cost: Int?): String {
-        return stringProvider.getString(R.string.cost, DecimalFormat("#,###,###", DecimalFormatSymbols().apply { groupingSeparator = '.' }).format(cost))
+    private fun prepareCost(cost: Int?): Spanned {
+        return buildSpannedString {
+            bold {
+                append(stringProvider.getString(R.string.cost))
+            }
+            append(DecimalFormat("#,###,###", DecimalFormatSymbols().apply { groupingSeparator = '.' }).format(cost))
+        }
+    }
+
+    private fun requestPositions(id: String) {
+        viewModelScope.launch {
+            detailUseCase.getPositions().list.find { it.id == id }?.positions?.random()?.let {
+                _positionsLiveData.postValue(
+                    buildSpannedString {
+                        bold {
+                            append(stringProvider.getString(R.string.last_position))
+                        }
+                        append("(${it.posX},${it.posY})")
+                    }
+                )
+            }
+        }
     }
 }
