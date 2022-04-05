@@ -47,7 +47,7 @@ class DetailViewModel @Inject constructor(
         viewModelScope.launch {
             _uiLiveData.postValue(Resource.Loading)
             with(detailUseCase.getSatelliteById(id)) {
-                if (this.id == null) {
+                if (this?.id == null) {
                     _uiLiveData.postValue(Resource.Error(Exception(stringProvider.getString(R.string.couldnt_get_satellite_detail))))
                 } else {
                     _uiLiveData.postValue(Resource.Success(this))

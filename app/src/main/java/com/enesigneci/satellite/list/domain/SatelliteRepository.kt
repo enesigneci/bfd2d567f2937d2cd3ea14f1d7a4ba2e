@@ -8,6 +8,6 @@ interface SatelliteRepository {
     suspend fun loadSatellites(): List<SatelliteList>
     suspend fun insertSatelliteList(satellite: SatelliteList)
 
-    suspend fun getSatelliteById(id: Int): SatelliteDetail
+    suspend fun getSatelliteById(id: Int): SatelliteDetail?
     suspend fun getPositions(): PositionList
 }
