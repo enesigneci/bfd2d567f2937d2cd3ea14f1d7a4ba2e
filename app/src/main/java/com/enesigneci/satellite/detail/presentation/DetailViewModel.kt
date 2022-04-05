@@ -32,11 +32,9 @@ class DetailViewModel @Inject constructor(
 
     private val args = DetailFragmentArgs.fromSavedStateHandle(savedStateHandle)
     private val id = args.id
-    private val name = args.name
 
     private val _uiLiveData = MutableLiveData<Resource<SatelliteDetail>>()
     val uiLiveData: LiveData<Resource<SatelliteDetail>> = _uiLiveData
-
 
     private val _uiModelLiveData = MutableLiveData<SatelliteDetailUIModel>()
     val uiModelLiveData: LiveData<SatelliteDetailUIModel> = _uiModelLiveData
@@ -75,16 +73,17 @@ class DetailViewModel @Inject constructor(
     }
 
     private fun prepareDate(date: String?): String {
-        val inputDate = SimpleDateFormat("yyyy-mm-dd", Locale.getDefault()).parse(date)
-        val outputDate = SimpleDateFormat("dd.mm.yyyy", Locale.getDefault()).format(inputDate)
+        val inputDate = SimpleDateFormat(INPUT_DATE_PATTERN, Locale.getDefault()).parse(date)
+        val outputDate = SimpleDateFormat(OUTPUT_DATE_PATTERN, Locale.getDefault()).format(inputDate)
         return outputDate.toString()
     }
+
     private fun prepareCost(cost: Int?): Spanned {
         return buildSpannedString {
             bold {
                 append(stringProvider.getString(R.string.cost))
             }
-            append(DecimalFormat("#,###,###", DecimalFormatSymbols().apply { groupingSeparator = '.' }).format(cost))
+            append(DecimalFormat(COST_PATTERN, DecimalFormatSymbols().apply { groupingSeparator = '.' }).format(cost))
         }
     }
 
@@ -101,5 +100,11 @@ class DetailViewModel @Inject constructor(
                 )
             }
         }
+    }
+
+    companion object {
+        const val INPUT_DATE_PATTERN = "yyyy-mm-dd"
+        const val OUTPUT_DATE_PATTERN = "dd.mm.yyyy"
+        const val COST_PATTERN = "#,###,###"
     }
 }
