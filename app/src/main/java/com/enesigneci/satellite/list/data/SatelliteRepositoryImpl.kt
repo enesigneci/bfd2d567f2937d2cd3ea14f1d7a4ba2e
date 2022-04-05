@@ -17,7 +17,7 @@ class SatelliteRepositoryImpl constructor(
         dataSource.insertSatelliteList(satellite)
     }
 
-    override suspend fun getSatelliteById(id: Int, name: String): SatelliteDetail {
+    override suspend fun getSatelliteById(id: Int): SatelliteDetail {
         return dataSource.getSatelliteById(id)
     }
 
