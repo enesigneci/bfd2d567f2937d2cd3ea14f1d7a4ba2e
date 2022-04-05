@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,6 +15,8 @@ import com.enesigneci.satellite.extension.showErrorDialog
 import com.enesigneci.satellite.list.data.Resource
 import com.enesigneci.satellite.list.presentation.adapter.ListAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ListFragment : BindingFragment<FragmentListBinding>(FragmentListBinding::inflate) {
@@ -30,7 +33,10 @@ class ListFragment : BindingFragment<FragmentListBinding>(FragmentListBinding::i
                 addItemDecoration(DividerItemDecoration(requireContext(), RecyclerView.VERTICAL))
             }
             etFilter.addTextChangedListener {
-                listAdapter.filter.filter(it.toString())
+                lifecycleScope.launch {
+                    delay(300)
+                    listAdapter.filter.filter(it.toString())
+                }
             }
         }
 
