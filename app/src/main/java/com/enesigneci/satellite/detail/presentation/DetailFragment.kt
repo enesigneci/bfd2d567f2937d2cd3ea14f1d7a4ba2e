@@ -26,19 +26,18 @@ class DetailFragment : BindingFragment<FragmentDetailBinding>(FragmentDetailBind
                 is Resource.Success -> {
                     hideLoader()
                     viewModel.uiModelLiveData.observe(viewLifecycleOwner, { uiModel ->
-
-                        viewModel.positionsLiveData.observe(viewLifecycleOwner, { position ->
-                            binding.tvLastPosition.text = position
-                        })
                         with(uiModel) {
                             binding.apply {
-                                tvName.setText(title)
-                                tvCost.setText(cost)
-                                tvDate.setText(date)
-                                tvHeightMass.setText(heightMass)
+                                tvName.text = title
+                                tvCost.text = cost
+                                tvDate.text = date
+                                tvHeightMass.text = heightMass
                             }
                         }
+                    })
 
+                    viewModel.positionsLiveData.observe(viewLifecycleOwner, { position ->
+                        binding.tvLastPosition.text = position
                     })
                 }
                 Resource.Loading -> showLoader()
