@@ -2,6 +2,7 @@ package com.enesigneci.satellite.list.presentation
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -27,6 +28,9 @@ class ListFragment : BindingFragment<FragmentListBinding>(FragmentListBinding::i
                 adapter = listAdapter
                 layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
                 addItemDecoration(DividerItemDecoration(requireContext(), RecyclerView.VERTICAL))
+            }
+            etFilter.addTextChangedListener {
+                listAdapter.filter.filter(it.toString())
             }
         }
 

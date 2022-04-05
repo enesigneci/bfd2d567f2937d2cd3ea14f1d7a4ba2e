@@ -48,7 +48,7 @@ class DetailViewModel @Inject constructor(
     fun getSatelliteDetail() {
         viewModelScope.launch {
             _uiLiveData.postValue(Resource.Loading)
-            with(detailUseCase.getSatelliteById(id, name)) {
+            with(detailUseCase.getSatelliteById(id)) {
                 if (this.id == null) {
                     _uiLiveData.postValue(Resource.Error(Exception(stringProvider.getString(R.string.couldnt_get_satellite_detail))))
                 } else {
@@ -90,7 +90,7 @@ class DetailViewModel @Inject constructor(
 
     private fun requestPositions(id: String) {
         viewModelScope.launch {
-            detailUseCase.getPositions().list.find { it.id == id }?.positions?.random()?.let {
+            detailUseCase.getPositions(id)?.positions?.random()?.let {
                 _positionsLiveData.postValue(
                     buildSpannedString {
                         bold {
