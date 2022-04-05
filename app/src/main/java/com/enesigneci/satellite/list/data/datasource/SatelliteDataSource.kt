@@ -53,11 +53,13 @@ class SatelliteDataSource @Inject constructor(
         return dataManager.parseJson(Constants.SATELLITE_LIST_JSON) as List<SatelliteList>
     }
 
-    private suspend fun prepareSatelliteDetailData(id: Int): SatelliteDetail {
+    private suspend fun prepareSatelliteDetailData(id: Int): SatelliteDetail? {
         val satelliteFromDb = satelliteDb.satelliteDao().getSatelliteById(id)
         return if (satelliteFromDb == null) {
-            val satelliteDetail = populateSatelliteDetailDatabase().find { it.id == id }!!
-            insertSatelliteDetail(satelliteDetail)
+            val satelliteDetail = populateSatelliteDetailDatabase().find { it.id == id }
+            satelliteDetail?.let {
+                insertSatelliteDetail(it)
+            }
             satelliteDetail
         } else {
             satelliteFromDb
