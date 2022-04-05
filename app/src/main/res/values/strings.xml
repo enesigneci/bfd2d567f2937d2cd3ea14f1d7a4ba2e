@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">Satellite</string>
+    <string name="satellite_status_indicator">satellite status indicator</string>
+    <string name="search">Search</string>
+    <string name="active">Active</string>
+    <string name="passive">Passive</string>
+    <string name="ok">OK</string>
+    <string name="error_dialog_description_text">Error occurred</string>
+    <string name="there_is_no_satellite">There is no satellite.</string>
+    <string name="couldnt_get_satellite_detail">Couldn\'t get satellite detail</string>
+    <string name="height_mass">Height / Mass: </string>
+    <string name="last_position">Last Position: </string>
+    <string name="cost">Cost: </string>
 </resources>
