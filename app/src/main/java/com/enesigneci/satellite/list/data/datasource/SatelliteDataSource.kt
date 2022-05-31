@@ -7,6 +7,7 @@ import com.enesigneci.satellite.di.coroutines.IoDispatcher
 import com.enesigneci.satellite.list.data.DataManager
 import com.enesigneci.satellite.list.data.db.SatelliteDb
 import com.enesigneci.satellite.list.data.db.model.SatelliteList
+import com.google.gson.reflect.TypeToken
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlinx.coroutines.CoroutineDispatcher
@@ -50,7 +51,7 @@ class SatelliteDataSource @Inject constructor(
     }
 
     private fun populateSatelliteDatabase(): List<SatelliteList> {
-        return dataManager.parseJson(Constants.SATELLITE_LIST_JSON) as List<SatelliteList>
+        return dataManager.parseJson(Constants.SATELLITE_LIST_JSON)
     }
 
     private suspend fun prepareSatelliteDetailData(id: Int): SatelliteDetail? {
@@ -67,10 +68,10 @@ class SatelliteDataSource @Inject constructor(
     }
 
     private fun populateSatelliteDetailDatabase(): List<SatelliteDetail> {
-        return dataManager.parseJson(Constants.SATELLITE_DETAIL_JSON) as List<SatelliteDetail>
+        return dataManager.parseJson(Constants.SATELLITE_DETAIL_JSON)
     }
 
     fun getPositions(): PositionList {
-        return dataManager.parseJson(Constants.POSITIONS_JSON) as PositionList
+        return dataManager.parseJson(Constants.POSITIONS_JSON)
     }
 }
