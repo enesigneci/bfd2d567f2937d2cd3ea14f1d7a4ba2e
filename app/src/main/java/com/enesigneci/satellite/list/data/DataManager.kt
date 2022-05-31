@@ -28,20 +28,20 @@ class DataManager @Inject constructor(
         }
         return ""
     }
-    fun parseJson(fileName: String): Any? {
+    fun <T> parseJson(fileName: String): T {
         val json = loadJsonFromAssets(fileName)
-        return when(fileName) {
-            Constants.SATELLITE_LIST_JSON -> {
-                val satelliteListType: Type = object : TypeToken<List<SatelliteList>>() {}.type
-                gson.fromJson<List<SatelliteList>>(json, satelliteListType)
-            }
-            Constants.SATELLITE_DETAIL_JSON -> {
-                val satelliteDetailType: Type = object : TypeToken<List<SatelliteDetail>>() {}.type
-                gson.fromJson<List<SatelliteDetail>>(json, satelliteDetailType)
-            }
-            Constants.POSITIONS_JSON -> {
-                gson.fromJson(json, PositionList::class.java)
-            }
+        val type: Type? = getTypeToken(fileName)
+        if (type != null) {
+            return gson.fromJson(json, type)
+        } else {
+            throw IllegalArgumentException("Type is null")
+        }
+    }
+    private fun getTypeToken(fileName: String): Type? {
+       return when (fileName) {
+            Constants.SATELLITE_LIST_JSON -> object : TypeToken<List<SatelliteList>>() {}.type
+            Constants.SATELLITE_DETAIL_JSON -> object : TypeToken<List<SatelliteDetail>>() {}.type
+            Constants.POSITIONS_JSON -> object : TypeToken<PositionList>() {}.type
             else -> null
         }
     }
