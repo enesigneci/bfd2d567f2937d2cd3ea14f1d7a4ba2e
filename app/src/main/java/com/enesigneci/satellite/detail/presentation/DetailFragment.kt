@@ -17,15 +17,15 @@ class DetailFragment : BindingFragment<FragmentDetailBinding>(FragmentDetailBind
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.getSatelliteDetail()
-        viewModel.uiLiveData.observe(viewLifecycleOwner, {
-            when(it) {
+        viewModel.uiLiveData.observe(viewLifecycleOwner) {
+            when (it) {
                 is Resource.Error -> {
                     hideLoader()
                     requireContext().showErrorDialog(it.exception.message.toString())
                 }
                 is Resource.Success -> {
                     hideLoader()
-                    viewModel.uiModelLiveData.observe(viewLifecycleOwner, { uiModel ->
+                    viewModel.uiModelLiveData.observe(viewLifecycleOwner) { uiModel ->
                         with(uiModel) {
                             binding.apply {
                                 tvName.text = title
@@ -34,17 +34,16 @@ class DetailFragment : BindingFragment<FragmentDetailBinding>(FragmentDetailBind
                                 tvHeightMass.text = heightMass
                             }
                         }
-                    })
+                    }
 
-                    viewModel.positionsLiveData.observe(viewLifecycleOwner, { position ->
+                    viewModel.positionsLiveData.observe(viewLifecycleOwner) { position ->
                         binding.tvLastPosition.text = position
-                    })
+                    }
                 }
                 Resource.Loading -> showLoader()
             }
-        })
+        }
     }
-
     private fun showLoader() {
         binding.pbLoader.visibility = View.VISIBLE
     }
