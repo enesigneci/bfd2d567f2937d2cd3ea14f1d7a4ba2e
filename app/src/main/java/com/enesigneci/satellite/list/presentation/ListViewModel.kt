@@ -27,7 +27,7 @@ class ListViewModel @Inject constructor(
             _uiLiveData.postValue(Resource.Loading)
             with(listSatellitesUseCase.loadSatellites()) {
                 if (isEmpty()) {
-                    _uiLiveData.postValue(Resource.Error(Exception(stringProvider.getString(R.string.there_is_no_satellite))))
+                    _uiLiveData.postValue(Resource.Error(Exception(stringProvider.get(R.string.there_is_no_satellite))))
                 } else {
                     _uiLiveData.postValue(Resource.Success(this))
                 }

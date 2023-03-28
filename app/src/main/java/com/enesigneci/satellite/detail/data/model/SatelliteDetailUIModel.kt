@@ -16,7 +16,7 @@ fun SatelliteDetail.toSatelliteDetailUIModel(stringProvider: StringProvider, tit
     return SatelliteDetailUIModel(title,
         buildSpannedString {
             bold {
-                append(stringProvider.getString(R.string.height_mass))
+                append(stringProvider.get(R.string.height_mass))
             }
             append("$height / $mass")
         },

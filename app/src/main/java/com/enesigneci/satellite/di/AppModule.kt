@@ -1,8 +1,10 @@
 package com.enesigneci.satellite.di
 
+import android.app.Application
 import android.content.Context
 import androidx.room.Room
 import com.enesigneci.satellite.BuildConfig
+import com.enesigneci.satellite.base.Provider
 import com.enesigneci.satellite.base.StringProvider
 import com.enesigneci.satellite.di.coroutines.IoDispatcher
 import com.enesigneci.satellite.list.data.datasource.SatelliteDataSource
@@ -23,6 +25,11 @@ import kotlinx.coroutines.CoroutineDispatcher
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
+    @Singleton
+    @Provides
+    fun provideContext(application: Application): Context {
+        return application.applicationContext
+    }
     @Singleton
     @Provides
     fun provideRepository(localDataSource: SatelliteDataSource, assetDataSource: AssetDataSource, @IoDispatcher ioDispatcher: CoroutineDispatcher): SatelliteRepository =
@@ -49,5 +56,5 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideStringProvider(@ApplicationContext context: Context) = StringProvider(context)
+    fun provideStringProvider(@ApplicationContext context: Context): Provider<String> = StringProvider(context)
 }
