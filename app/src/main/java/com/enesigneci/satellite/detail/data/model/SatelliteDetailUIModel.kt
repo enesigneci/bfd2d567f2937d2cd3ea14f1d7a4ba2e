@@ -5,7 +5,6 @@ import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
 import com.enesigneci.satellite.R
 import com.enesigneci.satellite.base.StringProvider
-import javax.inject.Inject
 
 data class SatelliteDetailUIModel(
     val title: String,

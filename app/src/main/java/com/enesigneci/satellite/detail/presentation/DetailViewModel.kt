@@ -48,7 +48,7 @@ class DetailViewModel @Inject constructor(
                     _uiLiveData.postValue(Resource.Success(satelliteDetail.toSatelliteDetailUIModel(
                         stringProvider,
                         args.name,
-                        prepareDate(it.first?.firstFlight),
+                        prepareDate(it.first?.firstFlight ?: ""),
                         prepareCost(it.first?.costPerLaunch)
                     )))
                 }
@@ -62,9 +62,13 @@ class DetailViewModel @Inject constructor(
         }
     }
 
-    private fun prepareDate(date: String?): String {
+    private fun prepareDate(date: String): String {
         val inputDate = SimpleDateFormat(INPUT_DATE_PATTERN, Locale.getDefault()).parse(date)
-        val outputDate = SimpleDateFormat(OUTPUT_DATE_PATTERN, Locale.getDefault()).format(inputDate)
+        val outputDate = inputDate?.let { input->
+            SimpleDateFormat(OUTPUT_DATE_PATTERN, Locale.getDefault()).format(
+                input
+            )
+        }
         return outputDate.toString()
     }
 

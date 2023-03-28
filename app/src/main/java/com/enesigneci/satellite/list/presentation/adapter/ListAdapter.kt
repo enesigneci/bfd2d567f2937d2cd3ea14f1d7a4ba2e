@@ -24,7 +24,7 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.SatelliteViewHolder>(), Fil
     }
     private val differ = AsyncListDiffer(this, differCallback)
 
-    private var onItemClickedListener: (item: SatelliteList) -> Unit = { satellite -> }
+    private var onItemClickedListener: (item: SatelliteList) -> Unit = { _ -> }
 
     fun setItemClickListener(onItemClickedListener: (item: SatelliteList) -> Unit) {
         this.onItemClickedListener = onItemClickedListener
@@ -66,7 +66,12 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.SatelliteViewHolder>(), Fil
         }
 
         override fun publishResults(p0: CharSequence?, filterResults: FilterResults?) {
-            differ.submitList(filterResults?.values as List<SatelliteList>)
+            filterResults?.let { results ->
+                val satelliteList = (results.values as List<*>)
+                    .filterIsInstance<SatelliteList>()
+                    .toList()
+                differ.submitList(satelliteList)
+            }
         }
     }
 
