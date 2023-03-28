@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.enesigneci.satellite.R
 import com.enesigneci.satellite.base.StringProvider
-import com.enesigneci.satellite.detail.data.model.SatelliteDetail
 import com.enesigneci.satellite.detail.data.model.SatelliteDetailUIModel
 import com.enesigneci.satellite.detail.data.model.toSatelliteDetailUIModel
 import com.enesigneci.satellite.detail.domain.DetailUseCase
@@ -47,13 +46,8 @@ class DetailViewModel @Inject constructor(
                     _uiLiveData.postValue(Resource.Error(Exception(stringProvider.getString(R.string.couldnt_get_satellite_detail))))
                 } else {
                     _uiLiveData.postValue(Resource.Success(satelliteDetail.toSatelliteDetailUIModel(
+                        stringProvider,
                         args.name,
-                        buildSpannedString {
-                            bold {
-                                append(stringProvider.getString(R.string.height_mass))
-                            }
-                            append("${it.first?.height} / ${it.first?.mass}")
-                        },
                         prepareDate(it.first?.firstFlight),
                         prepareCost(it.first?.costPerLaunch)
                     )))
