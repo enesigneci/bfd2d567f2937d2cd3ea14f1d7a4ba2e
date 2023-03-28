@@ -42,10 +42,11 @@ class DetailViewModel @Inject constructor(
     fun getSatelliteDetail() {
         viewModelScope.launch {
             detailUseCase.prepareCombinedFlow(id).collectLatest {
-                if (id == null) {
+                val satelliteDetail = it.first
+                if (satelliteDetail == null) {
                     _uiLiveData.postValue(Resource.Error(Exception(stringProvider.getString(R.string.couldnt_get_satellite_detail))))
                 } else {
-                    _uiLiveData.postValue(Resource.Success(it.first!!.toSatelliteDetailUIModel(
+                    _uiLiveData.postValue(Resource.Success(satelliteDetail.toSatelliteDetailUIModel(
                         args.name,
                         buildSpannedString {
                             bold {
