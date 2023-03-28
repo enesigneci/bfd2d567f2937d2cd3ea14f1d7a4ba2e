@@ -4,10 +4,37 @@ import com.enesigneci.satellite.detail.data.model.Positions
 import com.enesigneci.satellite.detail.data.model.SatelliteDetail
 import com.enesigneci.satellite.list.domain.SatelliteRepository
 import javax.inject.Inject
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.isActive
 
 class DetailUseCase @Inject constructor(
     private val satelliteRepository: SatelliteRepository
 ) {
-    suspend fun getSatelliteById(id: Int): SatelliteDetail? = satelliteRepository.getSatelliteById(id)
-    suspend fun getPositions(id: String): Positions? = satelliteRepository.getPositions().list.find { it.id == id }
+    private suspend fun getSatelliteById(id: Int): Flow<SatelliteDetail?> {
+        return flowOf(satelliteRepository.getSatelliteById(id))
+    }
+
+    private suspend fun getPositions(id: Int): Positions? {
+        return satelliteRepository.getPositions().list.find { it.id == id.toString() }
+    }
+
+    suspend fun prepareCombinedFlow(id: Int): Flow<Pair<SatelliteDetail?, Positions?>> {
+        val timer = flow {
+            while (currentCoroutineContext().isActive) {
+                emit(getPositions(id))
+                delay(3000)
+            }
+        }
+        return combine(
+            getSatelliteById(id),
+            timer
+        ) { satellite, positions ->
+            satellite to positions
+        }
+    }
 }

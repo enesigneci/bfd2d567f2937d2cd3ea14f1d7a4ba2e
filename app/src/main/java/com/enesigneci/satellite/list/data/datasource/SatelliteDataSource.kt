@@ -15,19 +15,21 @@ class SatelliteDataSource @Inject constructor(
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) {
 
-    suspend fun insertSatelliteList(satelliteList: SatelliteList) = withContext(ioDispatcher) {
-        satelliteDb.satelliteDao().insertSatelliteList(satelliteList)
+    suspend fun insertSatelliteList(satelliteList: SatelliteList) {
+        withContext(ioDispatcher) {
+            satelliteDb.satelliteDao().insertSatelliteList(satelliteList)
+        }
     }
 
-    suspend fun getSatelliteById(id: Int) = withContext(ioDispatcher) {
-        prepareSatelliteDetailData(id)
+    suspend fun getSatelliteById(id: Int): SatelliteDetail? {
+        return withContext(ioDispatcher) {
+            satelliteDb.satelliteDao().getSatelliteById(id)
+        }
     }
 
-    suspend fun insertSatelliteDetail(satelliteDetail: SatelliteDetail) = withContext(ioDispatcher) {
-        satelliteDb.satelliteDao().insertSatelliteDetail(satelliteDetail)
-    }
-
-    suspend fun prepareSatelliteDetailData(id: Int): SatelliteDetail? {
-        return satelliteDb.satelliteDao().getSatelliteById(id)
+    suspend fun insertSatelliteDetail(satelliteDetail: SatelliteDetail) {
+        withContext(ioDispatcher) {
+            satelliteDb.satelliteDao().insertSatelliteDetail(satelliteDetail)
+        }
     }
 }
