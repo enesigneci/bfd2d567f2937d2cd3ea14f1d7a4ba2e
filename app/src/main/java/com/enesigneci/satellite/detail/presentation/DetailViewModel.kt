@@ -12,6 +12,7 @@ import com.enesigneci.satellite.R
 import com.enesigneci.satellite.base.StringProvider
 import com.enesigneci.satellite.detail.data.model.SatelliteDetail
 import com.enesigneci.satellite.detail.data.model.SatelliteDetailUIModel
+import com.enesigneci.satellite.detail.data.model.toSatelliteDetailUIModel
 import com.enesigneci.satellite.detail.domain.DetailUseCase
 import com.enesigneci.satellite.list.data.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -32,11 +33,8 @@ class DetailViewModel @Inject constructor(
     private val args = DetailFragmentArgs.fromSavedStateHandle(savedStateHandle)
     private val id = args.id
 
-    private val _uiLiveData = MutableLiveData<Resource<SatelliteDetail>>()
-    val uiLiveData: LiveData<Resource<SatelliteDetail>> = _uiLiveData
-
-    private val _uiModelLiveData = MutableLiveData<SatelliteDetailUIModel>()
-    val uiModelLiveData: LiveData<SatelliteDetailUIModel> = _uiModelLiveData
+    private val _uiLiveData = MutableLiveData<Resource<SatelliteDetailUIModel>>()
+    val uiLiveData: LiveData<Resource<SatelliteDetailUIModel>> = _uiLiveData
 
     private val _positionsLiveData = MutableLiveData<Spanned>()
     val positionsLiveData: LiveData<Spanned> = _positionsLiveData
@@ -47,8 +45,7 @@ class DetailViewModel @Inject constructor(
                 if (id == null) {
                     _uiLiveData.postValue(Resource.Error(Exception(stringProvider.getString(R.string.couldnt_get_satellite_detail))))
                 } else {
-                    _uiLiveData.postValue(Resource.Success(it.first!!))
-                    val satelliteDetailUIModel = SatelliteDetailUIModel(
+                    _uiLiveData.postValue(Resource.Success(it.first!!.toSatelliteDetailUIModel(
                         args.name,
                         buildSpannedString {
                             bold {
@@ -58,8 +55,7 @@ class DetailViewModel @Inject constructor(
                         },
                         prepareDate(it.first?.firstFlight),
                         prepareCost(it.first?.costPerLaunch)
-                    )
-                    _uiModelLiveData.postValue(satelliteDetailUIModel)
+                    )))
                 }
                 _positionsLiveData.postValue(buildSpannedString {
                     bold {
