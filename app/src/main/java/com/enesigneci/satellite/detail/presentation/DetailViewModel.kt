@@ -43,7 +43,7 @@ class DetailViewModel @Inject constructor(
             detailUseCase.prepareCombinedFlow(id).collectLatest {
                 val satelliteDetail = it.first
                 if (satelliteDetail == null) {
-                    _uiLiveData.postValue(Resource.Error(Exception(stringProvider.getString(R.string.couldnt_get_satellite_detail))))
+                    _uiLiveData.postValue(Resource.Error(Exception(stringProvider.get(R.string.couldnt_get_satellite_detail))))
                 } else {
                     _uiLiveData.postValue(Resource.Success(satelliteDetail.toSatelliteDetailUIModel(
                         stringProvider,
@@ -54,7 +54,7 @@ class DetailViewModel @Inject constructor(
                 }
                 _positionsLiveData.postValue(buildSpannedString {
                     bold {
-                        append(stringProvider.getString(R.string.last_position))
+                        append(stringProvider.get(R.string.last_position))
                     }
                     append("(${it.second?.positions?.random()?.posX},${it.second?.positions?.random()?.posY})")
                 })
@@ -75,7 +75,7 @@ class DetailViewModel @Inject constructor(
     private fun prepareCost(cost: Int?): Spanned {
         return buildSpannedString {
             bold {
-                append(stringProvider.getString(R.string.cost))
+                append(stringProvider.get(R.string.cost))
             }
             append(DecimalFormat(COST_PATTERN, DecimalFormatSymbols().apply { groupingSeparator = '.' }).format(cost))
         }
