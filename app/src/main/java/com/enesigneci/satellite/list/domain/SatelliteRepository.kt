@@ -9,5 +9,4 @@ interface SatelliteRepository {
     suspend fun insertSatelliteList(satellite: SatelliteList)
 
     suspend fun getSatelliteById(id: Int): SatelliteDetail?
-    suspend fun getPositions(): PositionList
 }

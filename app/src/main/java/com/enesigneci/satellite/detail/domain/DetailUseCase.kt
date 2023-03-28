@@ -13,14 +13,15 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.isActive
 
 class DetailUseCase @Inject constructor(
-    private val satelliteRepository: SatelliteRepository
+    private val satelliteRepository: SatelliteRepository,
+    private val positionRepository: PositionRepository
 ) {
     private suspend fun getSatelliteById(id: Int): Flow<SatelliteDetail?> {
         return flowOf(satelliteRepository.getSatelliteById(id))
     }
 
     private suspend fun getPositions(id: Int): Positions? {
-        return satelliteRepository.getPositions().list.find { it.id == id.toString() }
+        return positionRepository.getPositions().list.find { it.id == id.toString() }
     }
 
     suspend fun prepareCombinedFlow(id: Int): Flow<Pair<SatelliteDetail?, Positions?>> {
