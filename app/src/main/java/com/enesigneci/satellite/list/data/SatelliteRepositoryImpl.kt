@@ -1,6 +1,5 @@
 package com.enesigneci.satellite.list.data
 
-import com.enesigneci.satellite.detail.data.model.PositionList
 import com.enesigneci.satellite.detail.data.model.SatelliteDetail
 import com.enesigneci.satellite.di.coroutines.IoDispatcher
 import com.enesigneci.satellite.list.data.datasource.AssetDataSource
@@ -35,9 +34,5 @@ class SatelliteRepositoryImpl @Inject constructor(
             }
             satelliteDataSource.getSatelliteById(id)
         }
-    }
-
-    override suspend fun getPositions(): PositionList {
-        return assetDataSource.getPositions()
     }
 }

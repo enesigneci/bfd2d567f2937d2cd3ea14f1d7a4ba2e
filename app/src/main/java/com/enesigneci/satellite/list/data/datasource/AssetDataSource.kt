@@ -27,10 +27,4 @@ class AssetDataSource @Inject constructor(
             dataManager.parseJson(Constants.SATELLITE_DETAIL_JSON)
         }
     }
-
-    suspend fun getPositions(): PositionList {
-        return withContext(ioDispatcher) {
-            dataManager.parseJson(Constants.POSITIONS_JSON)
-        }
-    }
 }

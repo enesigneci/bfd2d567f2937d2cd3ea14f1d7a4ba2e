@@ -6,6 +6,9 @@ import androidx.room.Room
 import com.enesigneci.satellite.BuildConfig
 import com.enesigneci.satellite.base.Provider
 import com.enesigneci.satellite.base.StringProvider
+import com.enesigneci.satellite.detail.data.PositionRepositoryImpl
+import com.enesigneci.satellite.detail.data.datasource.RemotePositionsDataSource
+import com.enesigneci.satellite.detail.domain.PositionRepository
 import com.enesigneci.satellite.di.coroutines.IoDispatcher
 import com.enesigneci.satellite.list.data.datasource.SatelliteDataSource
 import com.enesigneci.satellite.list.data.SatelliteRepositoryImpl
@@ -32,8 +35,13 @@ object AppModule {
     }
     @Singleton
     @Provides
-    fun provideRepository(localDataSource: SatelliteDataSource, assetDataSource: AssetDataSource, @IoDispatcher ioDispatcher: CoroutineDispatcher): SatelliteRepository =
+    fun provideSatelliteRepository(localDataSource: SatelliteDataSource, assetDataSource: AssetDataSource, @IoDispatcher ioDispatcher: CoroutineDispatcher): SatelliteRepository =
         SatelliteRepositoryImpl(localDataSource, assetDataSource, ioDispatcher)
+
+    @Singleton
+    @Provides
+    fun providePositionRepository(positionsDataSource: RemotePositionsDataSource): PositionRepository =
+        PositionRepositoryImpl(positionsDataSource)
 
     @Singleton
     @Provides
