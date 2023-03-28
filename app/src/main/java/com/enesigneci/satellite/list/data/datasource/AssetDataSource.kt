@@ -9,20 +9,28 @@ import com.enesigneci.satellite.list.data.db.model.SatelliteList
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.withContext
 
 @Singleton
 class AssetDataSource @Inject constructor(
-    private val dataManager: DataManager
+    private val dataManager: DataManager,
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) {
-    fun populateSatelliteDatabase(): List<SatelliteList> {
-        return dataManager.parseJson(Constants.SATELLITE_LIST_JSON)
+    suspend fun populateSatelliteDatabase(): List<SatelliteList> {
+        return withContext(ioDispatcher) {
+            dataManager.parseJson(Constants.SATELLITE_LIST_JSON)
+        }
     }
 
-    fun populateSatelliteDetailDatabase(): List<SatelliteDetail> {
-        return dataManager.parseJson(Constants.SATELLITE_DETAIL_JSON)
+    suspend fun populateSatelliteDetailDatabase(): List<SatelliteDetail> {
+        return withContext(ioDispatcher) {
+            dataManager.parseJson(Constants.SATELLITE_DETAIL_JSON)
+        }
     }
 
-    fun getPositions(): PositionList {
-        return dataManager.parseJson(Constants.POSITIONS_JSON)
+    suspend fun getPositions(): PositionList {
+        return withContext(ioDispatcher) {
+            dataManager.parseJson(Constants.POSITIONS_JSON)
+        }
     }
 }
