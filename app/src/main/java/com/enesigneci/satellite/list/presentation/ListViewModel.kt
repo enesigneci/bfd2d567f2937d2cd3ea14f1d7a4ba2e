@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 class ListViewModel @Inject constructor(
     private val stringProvider: StringProvider,
     private val listSatellitesUseCase: ListSatellitesUseCase
-): ViewModel() {
+) : ViewModel() {
     private val _uiLiveData = MutableLiveData<Resource<List<SatelliteList>>>()
     val uiLiveData: LiveData<Resource<List<SatelliteList>>> = _uiLiveData
 

@@ -57,8 +57,9 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.SatelliteViewHolder>(), Fil
             if (charString.isEmpty()) {
                 filteredList.addAll(items)
             } else {
-                filteredList.addAll(items
-                    .filter { it.name?.lowercase(Locale.getDefault())?.contains(charString) ?: false })
+                filteredList.addAll(items.filter {
+                        it.name?.lowercase(Locale.getDefault())?.contains(charString) ?: false
+                    })
             }
             val filterResults = FilterResults()
             filterResults.values = filteredList
@@ -67,9 +68,8 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.SatelliteViewHolder>(), Fil
 
         override fun publishResults(p0: CharSequence?, filterResults: FilterResults?) {
             filterResults?.let { results ->
-                val satelliteList = (results.values as List<*>)
-                    .filterIsInstance<SatelliteList>()
-                    .toList()
+                val satelliteList =
+                    (results.values as List<*>).filterIsInstance<SatelliteList>().toList()
                 differ.submitList(satelliteList)
             }
         }
@@ -86,8 +86,7 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.SatelliteViewHolder>(), Fil
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(
-            satellite: SatelliteList,
-            onItemClickedListener: (item: SatelliteList) -> Unit
+            satellite: SatelliteList, onItemClickedListener: (item: SatelliteList) -> Unit
         ) {
             binding.apply {
                 val isActive = satellite.isActive ?: false

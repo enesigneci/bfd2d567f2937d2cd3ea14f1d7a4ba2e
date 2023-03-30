@@ -10,13 +10,8 @@ import com.enesigneci.satellite.list.data.db.SatelliteDb
 import com.enesigneci.satellite.list.data.db.model.SatelliteList
 import com.google.common.truth.Truth
 import java.io.IOException
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.TestCoroutineScope
-import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.runBlockingTest
-import kotlinx.coroutines.test.setMain
+import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -25,29 +20,20 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class ListViewModelTest {
-    @ExperimentalCoroutinesApi
-    val testDispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()
-    @ExperimentalCoroutinesApi
-    val testScope: TestCoroutineScope = TestCoroutineScope(testDispatcher)
     @get:Rule
     val instantExecutor = InstantTaskExecutorRule()
 
-    @ExperimentalCoroutinesApi
-    @Before
-    fun setupDispatcher() {
-        Dispatchers.setMain(testDispatcher)
-    }
     private lateinit var satelliteDao: SatelliteDao
     private lateinit var db: SatelliteDb
 
-    @ExperimentalCoroutinesApi
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Before
     fun createDb() {
         val context = ApplicationProvider.getApplicationContext<Context>()
         db = Room.inMemoryDatabaseBuilder(
             context, SatelliteDb::class.java).build()
         satelliteDao = db.satelliteDao()
-        testScope.runBlockingTest {
+        runTest {
             satelliteDao.insertSatelliteList(
                 SatelliteList(
                     true, 1, "test"
@@ -62,17 +48,9 @@ class ListViewModelTest {
         db.close()
     }
 
-
-    @ExperimentalCoroutinesApi
-    @After
-    fun tearDownDispatcher() {
-        Dispatchers.resetMain()
-        testDispatcher.cleanupTestCoroutines()
-    }
-
     @ExperimentalCoroutinesApi
     @Test
-    fun loadSatellites() = testScope.runBlockingTest {
+    fun loadSatellites() = runTest {
         val satellites = satelliteDao.getSatellites()
         Truth.assertThat(satellites).hasSize(1)
     }

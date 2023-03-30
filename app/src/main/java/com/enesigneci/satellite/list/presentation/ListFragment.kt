@@ -17,7 +17,6 @@ import com.enesigneci.satellite.list.presentation.adapter.ListAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
 
@@ -33,14 +32,17 @@ class ListFragment : BindingFragment<FragmentListBinding>(FragmentListBinding::i
         super.onViewCreated(view, savedInstanceState)
 
         binding.apply {
+
             rvList.apply {
                 adapter = listAdapter
-                layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+                layoutManager =
+                    LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
                 addItemDecoration(DividerItemDecoration(requireContext(), RecyclerView.VERTICAL))
             }
-            setupSatelliteFilter()
-        }
 
+            setupSatelliteFilter()
+
+        }
         viewModel.loadSatellites()
 
         viewModel.uiLiveData.observe(viewLifecycleOwner) {
@@ -52,11 +54,11 @@ class ListFragment : BindingFragment<FragmentListBinding>(FragmentListBinding::i
                 is Resource.Success -> {
                     hideLoader()
                     listAdapter.updateList(it.data)
-                    listAdapter.setItemClickListener {
+                    listAdapter.setItemClickListener {satellite ->
                         val detailAction =
                             ListFragmentDirections.actionListFragmentToDetailFragment(
-                                it.id ?: 0,
-                                it.name ?: ""
+                                satellite.id ?: 0,
+                                satellite.name ?: ""
                             )
                         findNavController().navigate(detailAction)
                     }
@@ -78,6 +80,7 @@ class ListFragment : BindingFragment<FragmentListBinding>(FragmentListBinding::i
     private fun showLoader() {
         binding.pbLoader.visibility = View.VISIBLE
     }
+
     private fun hideLoader() {
         binding.pbLoader.visibility = View.GONE
     }

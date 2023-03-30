@@ -3,13 +3,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 
 typealias Inflate<T> = (LayoutInflater, ViewGroup?, Boolean) -> T
 
 abstract class BindingFragment<VB : ViewBinding>(
     private val inflate: Inflate<VB>
-) : HiltFragment() {
+) : Fragment() {
 
     private var _binding: VB? = null
     val binding get() = _binding!!

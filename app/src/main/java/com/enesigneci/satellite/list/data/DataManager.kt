@@ -15,19 +15,18 @@ import java.lang.reflect.Type
 
 
 class DataManager @Inject constructor(
-        @ApplicationContext private val context: Context,
-        private val gson: Gson
-    ) {
-    private val TAG = "DataManager"
+    @ApplicationContext private val context: Context, private val gson: Gson
+) {
     private fun loadJsonFromAssets(fileName: String): String {
         try {
             val stream: InputStream = context.assets.open(fileName)
             return stream.bufferedReader().use { it.readText() }
         } catch (e: Exception) {
-            Log.e(TAG, e.message.toString())
+            Log.e(Companion.TAG, e.message.toString())
         }
         return ""
     }
+
     fun <T> parseJson(fileName: String): T {
         val json = loadJsonFromAssets(fileName)
         val type: Type? = getTypeToken(fileName)
@@ -37,12 +36,17 @@ class DataManager @Inject constructor(
             throw IllegalArgumentException("Type is null")
         }
     }
+
     private fun getTypeToken(fileName: String): Type? {
-       return when (fileName) {
+        return when (fileName) {
             Constants.SATELLITE_LIST_JSON -> object : TypeToken<List<SatelliteList>>() {}.type
             Constants.SATELLITE_DETAIL_JSON -> object : TypeToken<List<SatelliteDetail>>() {}.type
             Constants.POSITIONS_JSON -> object : TypeToken<PositionList>() {}.type
             else -> null
         }
+    }
+
+    companion object {
+        private const val TAG = "DataManager"
     }
 }
