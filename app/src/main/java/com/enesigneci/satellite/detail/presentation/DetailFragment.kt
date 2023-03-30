@@ -43,9 +43,11 @@ class DetailFragment : BindingFragment<FragmentDetailBinding>(FragmentDetailBind
             binding.tvLastPosition.text = position
         }
     }
+
     private fun showLoader() {
         binding.pbLoader.visibility = View.VISIBLE
     }
+
     private fun hideLoader() {
         binding.pbLoader.visibility = View.GONE
     }

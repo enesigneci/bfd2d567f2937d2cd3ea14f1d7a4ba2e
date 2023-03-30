@@ -1,6 +1,5 @@
 package com.enesigneci.satellite.list.domain
 
-import com.enesigneci.satellite.detail.data.model.PositionList
 import com.enesigneci.satellite.detail.data.model.SatelliteDetail
 import com.enesigneci.satellite.list.data.db.model.SatelliteList
 

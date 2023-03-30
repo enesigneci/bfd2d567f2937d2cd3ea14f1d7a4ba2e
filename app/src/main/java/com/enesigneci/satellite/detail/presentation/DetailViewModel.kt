@@ -28,7 +28,7 @@ class DetailViewModel @Inject constructor(
     private val stringProvider: StringProvider,
     private val detailUseCase: DetailUseCase,
     savedStateHandle: SavedStateHandle
-): ViewModel() {
+) : ViewModel() {
     private val args = DetailFragmentArgs.fromSavedStateHandle(savedStateHandle)
     private val id = args.id
 
@@ -45,12 +45,16 @@ class DetailViewModel @Inject constructor(
                 if (satelliteDetail == null) {
                     _uiLiveData.postValue(Resource.Error(Exception(stringProvider.get(R.string.couldnt_get_satellite_detail))))
                 } else {
-                    _uiLiveData.postValue(Resource.Success(satelliteDetail.toSatelliteDetailUIModel(
-                        stringProvider,
-                        args.name,
-                        prepareDate(it.first?.firstFlight ?: ""),
-                        prepareCost(it.first?.costPerLaunch)
-                    )))
+                    _uiLiveData.postValue(
+                        Resource.Success(
+                            satelliteDetail.toSatelliteDetailUIModel(
+                                stringProvider,
+                                args.name,
+                                prepareDate(it.first?.firstFlight ?: ""),
+                                prepareCost(it.first?.costPerLaunch)
+                            )
+                        )
+                    )
                 }
                 _positionsLiveData.postValue(buildSpannedString {
                     bold {
@@ -64,7 +68,7 @@ class DetailViewModel @Inject constructor(
 
     private fun prepareDate(date: String): String {
         val inputDate = SimpleDateFormat(INPUT_DATE_PATTERN, Locale.getDefault()).parse(date)
-        val outputDate = inputDate?.let { input->
+        val outputDate = inputDate?.let { input ->
             SimpleDateFormat(OUTPUT_DATE_PATTERN, Locale.getDefault()).format(
                 input
             )
@@ -77,7 +81,13 @@ class DetailViewModel @Inject constructor(
             bold {
                 append(stringProvider.get(R.string.cost))
             }
-            append(DecimalFormat(COST_PATTERN, DecimalFormatSymbols().apply { groupingSeparator = '.' }).format(cost))
+            append(
+                DecimalFormat(
+                    COST_PATTERN,
+                    DecimalFormatSymbols().apply { groupingSeparator = '.' }).format(
+                    cost
+                )
+            )
         }
     }
 

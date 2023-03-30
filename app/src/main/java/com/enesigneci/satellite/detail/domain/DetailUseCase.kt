@@ -32,8 +32,7 @@ class DetailUseCase @Inject constructor(
             }
         }
         return combine(
-            getSatelliteById(id),
-            timer
+            getSatelliteById(id), timer
         ) { satellite, positions ->
             satellite to positions
         }

@@ -33,10 +33,18 @@ object AppModule {
     fun provideContext(application: Application): Context {
         return application.applicationContext
     }
+
     @Singleton
     @Provides
-    fun provideSatelliteRepository(localDataSource: SatelliteDataSource, assetDataSource: AssetDataSource, @IoDispatcher ioDispatcher: CoroutineDispatcher): SatelliteRepository =
-        SatelliteRepositoryImpl(localDataSource, assetDataSource, ioDispatcher)
+    fun provideSatelliteRepository(
+        localDataSource: SatelliteDataSource,
+        assetDataSource: AssetDataSource,
+        @IoDispatcher ioDispatcher: CoroutineDispatcher
+    ): SatelliteRepository = SatelliteRepositoryImpl(
+        localDataSource,
+        assetDataSource,
+        ioDispatcher
+    )
 
     @Singleton
     @Provides
@@ -64,5 +72,6 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideStringProvider(@ApplicationContext context: Context): Provider<String> = StringProvider(context)
+    fun provideStringProvider(@ApplicationContext context: Context): Provider<String> =
+        StringProvider(context)
 }
